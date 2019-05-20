@@ -12,16 +12,16 @@
     </tr>
     @foreach (var item in Model) {
         <tr>
-            <td class="text-right">@item.productId</td>
+            <td class="text-right">@item.ProductId</td>
             <td>@item.Name</td>
             <td class="text-right">@item.Price.ToString("c")</td>
             <td class="text-center">
                 <form asp-action="Delete" method="post">
                     <a asp-action="Edit" class="btn btn-sm btn-warning"
-                       asp-route-productId="@item.productId">
+                       asp-route-productId="@item.ProductId">
                         Edit
                     </a>
-                    <input type="hidden" name="productId" value="@item.productId" />
+                    <input type="hidden" name="productId" value="@item.ProductId" />
                     <button type="submit" class="btn btn-danger btn-sm">
                         Delete
                     </button>
