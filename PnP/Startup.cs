@@ -26,7 +26,7 @@ namespace PnP
     {
       services.AddDbContext<ApplicationDbContext>(options =>
           options.UseSqlServer(
-              Configuration["Data:SportStoreProducts:ConnectionString"]));
+              Configuration["Data:PnPProducts:ConnectionString"]));
 
 
       services.AddTransient<IProductRepository, EFProductRepository>();
