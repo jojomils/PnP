@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PnP.Infrastructure {
 
@@ -9,5 +11,11 @@ namespace PnP.Infrastructure {
         request.QueryString.HasValue
             ? $"{request.Path}{request.QueryString}"
             : request.Path.ToString();
+
+    public static IHtmlContent DisabledIf(this IHtmlHelper htmlHelper,
+                                             bool condition)
+       => new HtmlString(condition ? "disabled=\"disabled\"" : "");
+
+
   }
 }
