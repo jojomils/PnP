@@ -17,13 +17,14 @@ namespace PnP.Tests {
     {
       // Arrange - create the mock repository
       Mock<IProductRepository> mock = new Mock<IProductRepository>();
+      Mock<IOrderRepository> mocks = new Mock<IOrderRepository>();
       mock.Setup(m => m.Products).Returns(new Product[] {
                 new Product {ProductId = 1, Name = "P1"},
                 new Product {ProductId = 2, Name = "P2"},
                 new Product {ProductId = 3, Name = "P3"},
             }.AsQueryable<Product>());
       // Arrange - create a controller
-      AdminController target = new AdminController(mock.Object);
+      AdminController target = new AdminController(mock.Object, mocks.Object);
       // Action
       Product[] result
           = GetViewModel<IEnumerable<Product>>(target.Index())?.ToArray();
@@ -39,6 +40,8 @@ namespace PnP.Tests {
     {
       // Arrange - create the mock repository
       Mock<IProductRepository> mock = new Mock<IProductRepository>();
+      Mock<IOrderRepository> mocks = new Mock<IOrderRepository>();
+
       mock.Setup(m => m.Products).Returns(new Product[] {
                 new Product {ProductId = 1, Name = "P1"},
                 new Product {ProductId = 2, Name = "P2"},
@@ -46,7 +49,7 @@ namespace PnP.Tests {
             }.AsQueryable<Product>());
 
       // Arrange - create the controller
-      AdminController target = new AdminController(mock.Object);
+      AdminController target = new AdminController(mock.Object, mocks.Object);
 
       // Act
       Product p1 = GetViewModel<Product>(target.Edit(1));
@@ -64,6 +67,8 @@ namespace PnP.Tests {
     {
       // Arrange - create the mock repository
       Mock<IProductRepository> mock = new Mock<IProductRepository>();
+      Mock<IOrderRepository> mocks = new Mock<IOrderRepository>();
+
       mock.Setup(m => m.Products).Returns(new Product[] {
                 new Product {ProductId = 1, Name = "P1"},
                 new Product {ProductId = 2, Name = "P2"},
@@ -71,7 +76,7 @@ namespace PnP.Tests {
             }.AsQueryable<Product>());
 
       // Arrange - create the controller
-      AdminController target = new AdminController(mock.Object);
+      AdminController target = new AdminController(mock.Object, mocks.Object);
 
       // Act
       Product result = GetViewModel<Product>(target.Edit(4));
@@ -85,10 +90,12 @@ namespace PnP.Tests {
     {
       // Arrange - create mock repository
       Mock<IProductRepository> mock = new Mock<IProductRepository>();
+      Mock<IOrderRepository> mocks = new Mock<IOrderRepository>();
+
       // Arrange - create mock temp data 
       Mock<ITempDataDictionary> tempData = new Mock<ITempDataDictionary>();
       // Arrange - create the controller
-      AdminController target = new AdminController(mock.Object)
+      AdminController target = new AdminController(mock.Object, mocks.Object)
       {
         TempData = tempData.Object
       };
@@ -110,8 +117,10 @@ namespace PnP.Tests {
     {
       // Arrange - create mock repository
       Mock<IProductRepository> mock = new Mock<IProductRepository>();
+      Mock<IOrderRepository> mocks = new Mock<IOrderRepository>();
+
       // Arrange - create the controller
-      AdminController target = new AdminController(mock.Object);
+      AdminController target = new AdminController(mock.Object, mocks.Object);
       // Arrange - create a product
       Product product = new Product { Name = "Test" };
       // Arrange - add an error to the model state
@@ -134,6 +143,8 @@ namespace PnP.Tests {
 
       // Arrange - create the mock repository
       Mock<IProductRepository> mock = new Mock<IProductRepository>();
+      Mock<IOrderRepository> mocks = new Mock<IOrderRepository>();
+
       mock.Setup(m => m.Products).Returns(new Product[] {
                 new Product {ProductId = 1, Name = "P1"},
                 prod,
@@ -141,7 +152,7 @@ namespace PnP.Tests {
             }.AsQueryable<Product>());
 
       // Arrange - create the controller
-      AdminController target = new AdminController(mock.Object);
+      AdminController target = new AdminController(mock.Object, mocks.Object);
 
       // Act - delete the product
       target.Delete(prod.ProductId);
