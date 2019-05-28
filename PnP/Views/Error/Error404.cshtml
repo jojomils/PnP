@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <link rel="stylesheet"
+        asp-href-include="/lib/bootstrap/dist/**/*.min.css"
+        asp-href-exclude="**/*-reboot*,**/*-grid*" />
+  <link rel="stylesheet" asp-href-include="/lib/fontawesome/css/*.css" />
+  <title>PnP</title>
+</head>
+<body>
+  <div class="navbar navbar-inverse bg-inverse" role="navigation">
+    <div class="row">
+      <a class="col navbar-brand" asp-controller="Product" asp-action="List">Pic n Pay</a>
+      <div class="col-4 text-right">
+        @await Component.InvokeAsync("CartSummary")
+      </div>
+    </div>
+  </div>
+  <div class="row m-1 p-1">
+    <div id="categories" class="col-3">
+      @await Component.InvokeAsync("NavigationMenu")
+    </div>
+    <div class="col-9">
+      <h2>Oops, Something went wrong</h2>
+
+      <h3>Please try again later.</h3>
+      <div class="text-center">
+        <a class="btn btn-primary" href="@Model.ReturnUrl">Continue shopping</a>
+        <a class="btn btn-primary" asp-controller="Order" asp-action="Checkout">Checkout</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
