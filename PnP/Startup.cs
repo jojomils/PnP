@@ -22,12 +22,47 @@ namespace PnP
 
     public IConfiguration Configuration { get; }
 
+    //private async Task CreateUserRoles(IServiceProvider serviceProvider)
+    //{
+    //  var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    //}
+
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddDbContext<ApplicationDbContext>(options =>
           options.UseSqlServer(
               Configuration["Data:PnPProducts:ConnectionString"]));
 
+      services.AddDbContext<AppIdentityDbContext>(options =>
+          options.UseSqlServer(
+            Configuration["Data:PnPIdentity:ConnectionString"]));
+
+      services.AddIdentity<IdentityUser, IdentityRole>()
+        .AddEntityFrameworkStores<AppIdentityDbContext>()
+        .AddDefaultTokenProviders();
+
+      //Identity configurations
+      services.Configure<IdentityOptions>(options =>
+      {
+        options.Password.RequireDigit = true;
+        options.Password.RequiredLength = 8;
+        options.Password.RequiredUniqueChars = 6;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireUppercase = true;
+        options.Password.RequireNonAlphanumeric = true;
+
+        //To uncomment after 
+        //options.User.RequireUniqueEmail = true;
+
+
+      });
+
+      services.ConfigureApplicationCookie(c => {
+        c.Cookie.HttpOnly = true;
+        c.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+        //c.LoginPath = "";
+        //c.LogoutPath = "";
+      });
 
       services.AddTransient<IProductRepository, EFProductRepository>();
       services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
@@ -40,10 +75,18 @@ namespace PnP
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     {
-      app.UseDeveloperExceptionPage();
+      if (env.IsDevelopment())
+      {
+        app.UseDeveloperExceptionPage();
+      }
+      else
+      {
+        app.UseExceptionHandler("/Error/Error404");
+      }
       app.UseStatusCodePages();
       app.UseStaticFiles();
       app.UseSession();
+      app.UseAuthentication();
       app.UseMvc(routes => {
         routes.MapRoute(
             name: null,
@@ -68,9 +111,12 @@ namespace PnP
             template: "",
             defaults: new { controller = "Product", action = "List", productPage = 1 });
 
+       
+
         routes.MapRoute(name: null, template: "{controller}/{action}/{id?}");
       });
       SeedData.EnsurePopulated(app);
+      IdentitySeedData.EnsurePopulated(app);
     }
   }
 }
