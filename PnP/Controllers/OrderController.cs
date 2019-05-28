@@ -15,20 +15,20 @@ namespace PnP.Controllers {
       cart = cartService;
     }
 
-    public ViewResult List() =>
-        View(repository.Orders.Where(o => !o.Shipped));
-    [HttpPost]
-    public IActionResult MarkShipped(int orderID)
-    {
-      Order order = repository.Orders
-          .FirstOrDefault(o => o.OrderID == orderID);
-      if (order != null)
-      {
-        order.Shipped = true;
-        repository.SaveOrder(order);
-      }
-      return RedirectToAction(nameof(List));
-    }
+    //public ViewResult List() =>
+    //    View(repository.Orders.Where(o => !o.Shipped));
+    //[HttpPost]
+    //public IActionResult MarkShipped(int orderID)
+    //{
+    //  Order order = repository.Orders
+    //      .FirstOrDefault(o => o.OrderID == orderID);
+    //  if (order != null)
+    //  {
+    //    order.Shipped = true;
+    //    repository.SaveOrder(order);
+    //  }
+    //  return RedirectToAction(nameof(List));
+    //}
 
     public ViewResult Checkout() => View(new Order());
 
@@ -37,7 +37,8 @@ namespace PnP.Controllers {
     {
       if (cart.Lines.Count() == 0)
       {
-        ModelState.AddModelError("", "Sorry, your cart is empty!");
+        //ModelState.AddModelError("", "Sorry, your cart is empty!");
+        return RedirectToAction(nameof(Error));
       }
       if (ModelState.IsValid)
       {
@@ -49,6 +50,11 @@ namespace PnP.Controllers {
       {
         return View(order);
       }
+    }
+
+    public RedirectToPageResult Error()
+    {
+      return RedirectToPage("/Error/Error404");
     }
 
     public ViewResult Completed()
