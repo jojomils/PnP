@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Product>
+@model IEnumerable<Product>
 @{
     ViewBag.Title = "All Products";
     Layout = "_AdminLayout";
@@ -31,5 +31,9 @@
     }
 </table>
 <div class="text-center">
-    <a asp-action="Create" class="btn btn-primary">Add Product</a>
+  <a asp-action="Create" class="btn btn-primary">Add Product</a>
+  <a asp-action="List" class="btn btn-secondary">Orders List</a>
+  <a asp-action="Shipped" class="btn btn-secondary">Shipped Orders</a>
+  <a asp-action="Unshipped" class="btn btn-secondary">Unshipped Orders</a>
 </div>
+
