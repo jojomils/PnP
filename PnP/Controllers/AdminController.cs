@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PnP.Controllers {
 
-  [Authorize]
+  [Authorize(Roles = "Admin")]
   public class AdminController : Controller
   {
     private IProductRepository repository;

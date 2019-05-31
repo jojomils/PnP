@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using PnP.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace PnP.Controllers {
 
+  [Authorize]
   public class OrderController : Controller
   {
     private IOrderRepository repository;
