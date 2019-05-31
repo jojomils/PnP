@@ -1,0 +1,55 @@
+@model RegisterModel
+
+@{
+  ViewBag.Title = "User Registration";
+  Layout = "_AdminLayout";
+}
+
+
+<div class="text-danger" asp-validation-summary="All"></div>
+
+<form asp-action="Register" asp-controller="Account" method="post">
+  <input type="hidden" />
+  <div class="form-group">
+    <label asp-for="Name"></label>
+    <div>
+      <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <input asp-for="Name" class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label asp-for="Email"></label>
+    <div>
+      <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <input asp-for="Email" class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label asp-for="ConfirmEmail"></label>
+    <div>
+      <span asp-validation-for="ConfirmEmail" class="text-danger"></span>
+    </div>
+    <input asp-for="ConfirmEmail" class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label asp-for="Password"></label>
+    <div>
+      <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <input asp-for="Password" class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label asp-for="ConfirmPassword"></label>
+    <div>
+      <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+    <input asp-for="ConfirmPassword" class="form-control" />
+  </div>
+  <button class="btn btn-primary">Register</button>
+
+
+</form>
