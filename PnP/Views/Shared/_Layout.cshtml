@@ -1,3 +1,12 @@
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+
+
+
 <!DOCTYPE html>
 
 <html>
@@ -10,14 +19,40 @@
   <title>PnP</title>
 </head>
 <body>
-  <div class="navbar navbar-inverse bg-inverse" role="navigation">
-    <div class="row">
-      <a class="col navbar-brand" href="#">Pic n Pay</a>
-      <div class="col-4 text-right">
-        @await Component.InvokeAsync("CartSummary")
+  @if (SignInManager.IsSignedIn(User))
+  {
+    <div class="navbar navbar-inverse bg-inverse" role="navigation">
+      <div class="row">
+        <a class="col navbar-brand" href="@ViewBag.ReturnUrl">Pic n Pay</a>
+        <div class="col-3 text-right">
+          <a asp-action="List" asp-controller="Product">Hello @UserManager.GetUserName(User)!</a>
+          <a asp-action="Logout" asp-controller="Account">Log Out</a>
+        </div>
+
+        <div class="col-4 text-right">
+          @await Component.InvokeAsync("CartSummary")
+        </div>
       </div>
     </div>
-  </div>
+  }
+  else if (!SignInManager.IsSignedIn(User))
+  {
+    <div class="navbar navbar-inverse bg-inverse" role="navigation">
+      <div class="row">
+        <a class="col navbar-brand" href="@ViewBag.ReturnUrl">Pic n Pay</a>
+        <div class="col-3 text-right">
+          <a class="btn btn-sm btn-primary" asp-action="Login" asp-controller="Account">Login</a>
+          <a class="btn btn-sm btn-primary" asp-action="Register" asp-controller="Account">Register</a>
+        </div>
+          
+          <div class="col-4 text-right">
+            @await Component.InvokeAsync("CartSummary")
+          </div>
+        </div>
+      </div>
+  }
+
+
   <div class="row m-1 p-1">
     <div id="categories" class="col-3">
       @await Component.InvokeAsync("NavigationMenu")
@@ -28,3 +63,5 @@
   </div>
 </body>
 </html>
+
+

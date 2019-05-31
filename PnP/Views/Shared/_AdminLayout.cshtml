@@ -1,3 +1,9 @@
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,10 +37,14 @@
     else if (!User.Identity.IsAuthenticated)
     {
       <div class="col-2">
-        <a class="btn btn-sm btn-primary"
-           asp-action="Login" asp-controller="Account">Log In</a>
+        <a class="btn btn-sm btn-primary" asp-action="List" asp-controller="Product">Home</a>
+        @*<a class="btn btn-sm btn-primary" asp-area="Identity" asp-page="/Account/Register">Register</a>*@
+        <a class="btn btn-sm btn-primary" asp-action="Login" asp-controller="Account">Login</a>
+        <a class="btn btn-sm btn-primary" asp-action="Register" asp-controller="Account">Register</a>
       </div>
+
     }
+
 
   </div>
   @if (TempData["message"] != null)
